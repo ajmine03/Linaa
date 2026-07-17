@@ -19,7 +19,6 @@ from kernel.entities.enums import AssetType
 class Asset(BaseEntity):
     """A discovered inventory item linked to a Target within an Engagement."""
 
-
     engagement_id: str
     target_id: str | None = None
     asset_type: AssetType
