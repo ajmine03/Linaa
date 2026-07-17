@@ -1,0 +1,35 @@
+environment: development
+data_directory: ./data
+reports_directory: ./reports
+
+database:
+  url: sqlite+aiosqlite:///./data/lina.db
+  echo: false
+
+ollama:
+  base_url: http://localhost:11434
+  default_model: llama3.1:8b
+  embedding_model: nomic-embed-text
+
+authz:
+  require_engagement_scope: true
+  max_concurrent_engagements: 5
+
+plugin_manager:
+  enabled_plugins:
+    - pentest
+    - coding_agent
+    - osint
+    - bug_bounty
+    - dfir
+    - malware
+    - cloud
+    - active_directory
+    - wireless
+    - mobile
+    - container
+    - blue_team
+
+logging:
+  level: INFO
+  json_format: true
