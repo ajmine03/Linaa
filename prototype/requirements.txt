@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+streamlit
+requests
+pydantic
+pydantic-settings
+typer
+rich
