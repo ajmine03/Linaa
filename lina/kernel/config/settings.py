@@ -115,9 +115,16 @@ def get_settings() -> LinaSettingsSchema:
 
 
 def reload_settings(config_path: str | Path | None = None) -> LinaSettingsSchema:
-    """Clear the settings cache and reload — useful for tests / hot reload."""
+    """Clear the settings cache and reload — useful for tests / hot reload.
+
+    Note: since `get_settings()` takes no arguments, subsequent calls to it
+    after this function will re-run `load_settings()` with no explicit path
+    (falling back to LINA_CONFIG_FILE / ./config/lina.yaml / defaults). This
+    function's return value reflects the requested `config_path` immediately;
+    callers needing that exact path cached should hold onto this return value
+    directly rather than calling `get_settings()` again.
+    """
     get_settings.cache_clear()
     settings = load_settings(config_path)
     get_settings.cache_clear()
-    get_settings.__wrapped__ = None  # type: ignore[attr-defined]
     return settings

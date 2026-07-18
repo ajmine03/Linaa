@@ -24,7 +24,7 @@ import structlog
 
 from kernel.entities.tool_execution import ToolExecution
 from kernel.ports.exceptions import ToolRuntimeError
-from kernel.ports.tool_runtime import ToolResult, ToolRuntimePort, ToolSpec
+from kernel.ports.tool_runtime import ToolHandler, ToolResult, ToolRuntimePort, ToolSpec
 from kernel.tool_runtime.output_capture import BoundedBuffer
 from kernel.tool_runtime.registry import ToolRegistry
 
@@ -113,18 +113,18 @@ class SubprocessToolRuntime(ToolRuntimePort):
         self._registry = registry or ToolRegistry()
         self._in_flight: dict[str, asyncio.Task[ToolResult]] = {}
 
-    def register_handler(self, tool_name: str, handler: object) -> None:  # type: ignore[override]
+    def register_handler(self, tool_name: str, handler: ToolHandler) -> None:
         spec = self._registry.get_spec(tool_name)
         if spec is None:
             raise ToolRuntimeError(
                 f"Cannot register handler for unknown tool '{tool_name}'; "
                 "register the ToolSpec first via registry.register()."
             )
-        self._registry.register(spec, handler)  # type: ignore[arg-type]
+        self._registry.register(spec, handler)
 
-    def register_tool(self, spec: ToolSpec, handler: object) -> None:  # type: ignore[override]
+    def register_tool(self, spec: ToolSpec, handler: ToolHandler) -> None:
         """Convenience: register spec + handler together (typical plugin usage)."""
-        self._registry.register(spec, handler)  # type: ignore[arg-type]
+        self._registry.register(spec, handler)
 
     def get_spec(self, tool_name: str) -> ToolSpec | None:
         return self._registry.get_spec(tool_name)
@@ -164,16 +164,16 @@ class SubprocessToolRuntime(ToolRuntimePort):
             self._in_flight.pop(execution.id, None)
 
     async def _run_with_timeout(
-        self, handler: object, execution: ToolExecution, timeout_seconds: int
+        self, handler: ToolHandler, execution: ToolExecution, timeout_seconds: int
     ) -> ToolResult:
         start = time.monotonic()
         try:
             result = await asyncio.wait_for(
-                handler(execution.parameters),  # type: ignore[operator]
+                handler(execution.parameters),
                 timeout=timeout_seconds,
             )
             return result
-        except TimeoutError as exc:
+        except TimeoutError:
             duration = time.monotonic() - start
             logger.warning(
                 "tool_runtime.execution_timed_out",

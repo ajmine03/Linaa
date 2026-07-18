@@ -5,11 +5,9 @@ from __future__ import annotations
 import json
 from typing import Any, Protocol, TypeVar
 
-from pydantic import BaseModel
+from kernel.entities.base import BaseEntity
 
-from kernel.runtime.db.base import EntityRecordMixin
-
-TEntity = TypeVar("TEntity", bound=BaseModel)
+TEntity = TypeVar("TEntity", bound=BaseEntity)
 
 
 class _ORMRecordLike(Protocol):
@@ -17,17 +15,24 @@ class _ORMRecordLike(Protocol):
     data: str
 
 
-def entity_to_record_kwargs(entity: BaseModel, *, extra_columns: dict[str, Any]) -> dict[str, Any]:
+def entity_to_record_kwargs(
+    entity: BaseEntity, *, extra_columns: dict[str, Any]
+) -> dict[str, Any]:
     """Build the kwargs dict needed to construct/update an ORM record from an entity.
 
     `extra_columns` supplies the denormalized SQL-filterable columns (e.g.
     status, severity) already extracted by the caller from the entity.
+
+    `entity` is typed as `BaseEntity` (not the looser `BaseModel`) because
+    `id`, `created_at`, and `updated_at` are guaranteed to exist there —
+    every persisted domain entity in LINA is a `BaseEntity` subclass, so
+    this reflects the actual contract rather than working around it.
     """
     payload = entity.model_dump(mode="json")
-    base = {
-        "id": payload["id"],
-        "created_at": entity.created_at if hasattr(entity, "created_at") else payload["created_at"],  # type: ignore[attr-defined]
-        "updated_at": entity.updated_at if hasattr(entity, "updated_at") else payload["updated_at"],  # type: ignore[attr-defined]
+    base: dict[str, Any] = {
+        "id": entity.id,
+        "created_at": entity.created_at,
+        "updated_at": entity.updated_at,
         "data": json.dumps(payload, separators=(",", ":")),
     }
     base.update(extra_columns)

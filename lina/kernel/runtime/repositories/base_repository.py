@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import Any, Generic, TypeVar
 
-from sqlalchemy import func, select
+from sqlalchemy import Select, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import InstrumentedAttribute
 
@@ -25,6 +25,13 @@ class SQLAlchemyRepository(EngagementScopedRepository[TEntity], Generic[TEntity,
     `column_extractor` pulls the denormalized SQL-filterable fields (e.g.
     {'status': entity.status.value}) from a given entity instance, matching
     the extra typed columns declared on the ORM model.
+
+    Typing note: `_apply_sql_filters` / `_apply_ordering` are shared between
+    `list()` (which selects `TRecord` rows) and `count()` (which selects a
+    scalar count), so they're typed against `Select[Any]` rather than a
+    fixed row-shape — SQLAlchemy 2.0's `Select[...]` is genuinely
+    polymorphic here and there is no single non-`Any` shape that covers
+    both call sites without duplicating the filter/order logic per shape.
     """
 
     def __init__(
@@ -84,7 +91,7 @@ class SQLAlchemyRepository(EngagementScopedRepository[TEntity], Generic[TEntity,
         order_by: str | None = None,
         descending: bool = True,
     ) -> list[TEntity]:
-        stmt = select(self._record_cls)
+        stmt: Select[tuple[TRecord]] = select(self._record_cls)
         stmt = self._apply_sql_filters(stmt, filters or {})
         stmt = self._apply_ordering(stmt, order_by, descending)
         stmt = stmt.limit(limit).offset(offset)
@@ -94,7 +101,7 @@ class SQLAlchemyRepository(EngagementScopedRepository[TEntity], Generic[TEntity,
         return self._apply_python_filters(entities, filters or {})
 
     async def count(self, *, filters: dict[str, object] | None = None) -> int:
-        stmt = select(func.count()).select_from(self._record_cls)
+        stmt: Select[Any] = select(func.count()).select_from(self._record_cls)
         stmt = self._apply_sql_filters(stmt, filters or {})
         result = await self._session.execute(stmt)
         return int(result.scalar_one())
@@ -102,7 +109,7 @@ class SQLAlchemyRepository(EngagementScopedRepository[TEntity], Generic[TEntity,
     async def list_by_engagement(
         self, engagement_id: str, *, limit: int = 100, offset: int = 0
     ) -> list[TEntity]:
-        if not hasattr(self._record_cls, "engagement_id"):
+        if "engagement_id" not in self._sql_column_names():
             raise AttributeError(
                 f"{self._record_cls.__name__} has no engagement_id column; "
                 "this repository is not engagement-scoped."
@@ -111,11 +118,13 @@ class SQLAlchemyRepository(EngagementScopedRepository[TEntity], Generic[TEntity,
             filters={"engagement_id": engagement_id}, limit=limit, offset=offset
         )
 
-    def _apply_sql_filters(self, stmt: Any, filters: dict[str, object]) -> Any:
+    def _apply_sql_filters(self, stmt: Select[Any], filters: dict[str, object]) -> Select[Any]:
+        column_names = self._sql_column_names()
         for key, value in filters.items():
-            column: InstrumentedAttribute[Any] | None = getattr(self._record_cls, key, None)
-            if column is not None and key in self._sql_column_names():
-                stmt = stmt.where(column == value)
+            if key not in column_names:
+                continue
+            column: InstrumentedAttribute[Any] = getattr(self._record_cls, key)
+            stmt = stmt.where(column == value)
         return stmt
 
     def _apply_python_filters(
@@ -128,18 +137,20 @@ class SQLAlchemyRepository(EngagementScopedRepository[TEntity], Generic[TEntity,
         remaining = {k: v for k, v in filters.items() if k not in self._sql_column_names()}
         if not remaining:
             return entities
-        result = []
-        for entity in entities:
-            if all(getattr(entity, k, None) == v for k, v in remaining.items()):
-                result.append(entity)
-        return result
+        return [
+            entity
+            for entity in entities
+            if all(getattr(entity, k, None) == v for k, v in remaining.items())
+        ]
 
     def _sql_column_names(self) -> set[str]:
         return set(self._record_cls.__table__.columns.keys())
 
-    def _apply_ordering(self, stmt: Any, order_by: str | None, descending: bool) -> Any:
+    def _apply_ordering(
+        self, stmt: Select[Any], order_by: str | None, descending: bool
+    ) -> Select[Any]:
         column_name = order_by or "updated_at"
-        column: InstrumentedAttribute[Any] | None = getattr(self._record_cls, column_name, None)
-        if column is None:
+        if column_name not in self._sql_column_names():
             return stmt
+        column: InstrumentedAttribute[Any] = getattr(self._record_cls, column_name)
         return stmt.order_by(column.desc() if descending else column.asc())

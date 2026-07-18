@@ -18,8 +18,6 @@ from kernel.model_router.message_adapter import from_ollama_response, to_ollama_
 from kernel.model_router.routing_policy import RoutingPolicy
 from kernel.ports.exceptions import ModelRouterError
 from kernel.ports.model_router import (
-    ChatMessage,
-    ChatRole,
     EmbeddingResult,
     ModelCapability,
     ModelRequest,
@@ -101,19 +99,29 @@ class OllamaModelRouter(ModelRouterPort):
         return dict(result)
 
     async def stream(self, request: ModelRequest) -> AsyncIterator[str]:
+        """Async-generator implementation.
+
+        NOTE: this MUST be declared `async def` (not plain `def`) because the
+        body contains both `await` and `yield`. A plain `def` here would be a
+        SyntaxError ('await' outside async function) — the port's abstract
+        signature is declared as `def ... -> AsyncIterator[str]` only because
+        it's a stub method (body is `...`), which never executes and so is
+        exempt from this constraint; concrete implementations must be async.
+        """
         model_name = self.resolve_model(request.required_capabilities, request.preferred_model)
         messages = to_ollama_messages(request.messages)
 
         logger.debug("model_router.stream_starting", model=model_name)
 
         try:
-            async for chunk in await self._client.chat(
+            stream = await self._client.chat(
                 model=model_name,
                 messages=messages,
                 stream=True,
                 keep_alive=self._config.keep_alive,
                 options={"temperature": request.temperature},
-            ):
+            )
+            async for chunk in stream:
                 content = chunk.get("message", {}).get("content", "")
                 if content:
                     yield content

@@ -24,3 +24,35 @@
 {"event": "audit_sink.stopped", "level": "info", "timestamp": "2026-07-18T03:53:32.634197Z"}
 {"event": "db.engine_disposed", "level": "info", "timestamp": "2026-07-18T03:53:32.634539Z"}
 {"event": "container.shutdown_complete", "level": "info", "timestamp": "2026-07-18T03:53:32.634595Z"}
+{"environment": "development", "database_url": "sqlite+aiosqlite:///./data/lina_test.db", "event": "container.building", "level": "info", "timestamp": "2026-07-18T04:58:31.052149Z"}
+{"tables": ["engagements", "targets", "findings", "assets", "credentials", "tool_executions", "agent_sessions", "agent_steps", "reports", "audit_entries"], "event": "db.initialized", "level": "info", "timestamp": "2026-07-18T04:58:31.074203Z"}
+{"subscription_id": "41fcf112-3994-4190-bbc8-8635f4926162", "pattern": "*", "event": "event_bus.subscribed", "level": "info", "timestamp": "2026-07-18T04:58:31.075531Z"}
+{"subscription_id": "41fcf112-3994-4190-bbc8-8635f4926162", "event": "audit_sink.started", "level": "info", "timestamp": "2026-07-18T04:58:31.075664Z"}
+{"event": "container.build_complete", "level": "info", "timestamp": "2026-07-18T04:58:31.075735Z"}
+{"subscription_id": "41fcf112-3994-4190-bbc8-8635f4926162", "event": "event_bus.unsubscribed", "level": "info", "timestamp": "2026-07-18T04:58:31.075810Z"}
+{"event": "audit_sink.stopped", "level": "info", "timestamp": "2026-07-18T04:58:31.075863Z"}
+{"event": "db.engine_disposed", "level": "info", "timestamp": "2026-07-18T04:58:31.076653Z"}
+{"event": "container.shutdown_complete", "level": "info", "timestamp": "2026-07-18T04:58:31.076804Z"}
+{"environment": "development", "database_url": "sqlite+aiosqlite:///./data/lina_test.db", "event": "container.building", "level": "info", "timestamp": "2026-07-18T04:58:32.180284Z"}
+{"tables": ["engagements", "targets", "findings", "assets", "credentials", "tool_executions", "agent_sessions", "agent_steps", "reports", "audit_entries"], "event": "db.initialized", "level": "info", "timestamp": "2026-07-18T04:58:32.189386Z"}
+{"subscription_id": "34beed00-8d11-4cf4-b2c6-61b525fce940", "pattern": "*", "event": "event_bus.subscribed", "level": "info", "timestamp": "2026-07-18T04:58:32.189569Z"}
+{"subscription_id": "34beed00-8d11-4cf4-b2c6-61b525fce940", "event": "audit_sink.started", "level": "info", "timestamp": "2026-07-18T04:58:32.189636Z"}
+{"event": "container.build_complete", "level": "info", "timestamp": "2026-07-18T04:58:32.189675Z"}
+{"engagement_id": "32a7afa8-e3d5-4619-a192-7e41153936b7", "plugin_name": "pentest", "tool_name": "scan", "risk_level": "read_only", "requested_by": "agent-1", "target_identifier": "192.168.56.10", "allowed": true, "requires_human_approval": false, "reason": "Auto-approved: within scope and risk policy.", "event": "authz.decision", "level": "info", "timestamp": "2026-07-18T04:58:32.204887Z"}
+{"engagement_id": "32a7afa8-e3d5-4619-a192-7e41153936b7", "plugin_name": "pentest", "tool_name": "scan", "risk_level": "medium", "requested_by": "agent-1", "target_identifier": "8.8.8.8", "allowed": false, "requires_human_approval": false, "reason": "No inclusion rule matched target identifier.", "event": "authz.decision", "level": "info", "timestamp": "2026-07-18T04:58:32.205366Z"}
+{"environment": "development", "database_url": "sqlite+aiosqlite:///./data/lina_test.db", "event": "container.building", "level": "info", "timestamp": "2026-07-18T05:19:29.027923Z"}
+{"tables": ["engagements", "targets", "findings", "assets", "credentials", "tool_executions", "agent_sessions", "agent_steps", "reports", "audit_entries"], "event": "db.initialized", "level": "info", "timestamp": "2026-07-18T05:19:29.041458Z"}
+{"subscription_id": "eca641cd-f774-44b1-afe0-8a3ddc380f5f", "pattern": "*", "event": "event_bus.subscribed", "level": "info", "timestamp": "2026-07-18T05:19:29.041932Z"}
+{"subscription_id": "eca641cd-f774-44b1-afe0-8a3ddc380f5f", "event": "audit_sink.started", "level": "info", "timestamp": "2026-07-18T05:19:29.042060Z"}
+{"event": "container.build_complete", "level": "info", "timestamp": "2026-07-18T05:19:29.042111Z"}
+{"subscription_id": "eca641cd-f774-44b1-afe0-8a3ddc380f5f", "event": "event_bus.unsubscribed", "level": "info", "timestamp": "2026-07-18T05:19:29.042162Z"}
+{"event": "audit_sink.stopped", "level": "info", "timestamp": "2026-07-18T05:19:29.042197Z"}
+{"event": "db.engine_disposed", "level": "info", "timestamp": "2026-07-18T05:19:29.042648Z"}
+{"event": "container.shutdown_complete", "level": "info", "timestamp": "2026-07-18T05:19:29.042707Z"}
+{"environment": "development", "database_url": "sqlite+aiosqlite:///./data/lina_test.db", "event": "container.building", "level": "info", "timestamp": "2026-07-18T05:19:29.768301Z"}
+{"tables": ["engagements", "targets", "findings", "assets", "credentials", "tool_executions", "agent_sessions", "agent_steps", "reports", "audit_entries"], "event": "db.initialized", "level": "info", "timestamp": "2026-07-18T05:19:29.777421Z"}
+{"subscription_id": "89d6daf7-b092-49d0-bab4-088d1e3f52ca", "pattern": "*", "event": "event_bus.subscribed", "level": "info", "timestamp": "2026-07-18T05:19:29.777636Z"}
+{"subscription_id": "89d6daf7-b092-49d0-bab4-088d1e3f52ca", "event": "audit_sink.started", "level": "info", "timestamp": "2026-07-18T05:19:29.777719Z"}
+{"event": "container.build_complete", "level": "info", "timestamp": "2026-07-18T05:19:29.777760Z"}
+{"engagement_id": "e0f9a5ff-2494-4cf0-9f01-81de6b6cb413", "plugin_name": "pentest", "tool_name": "scan", "risk_level": "read_only", "requested_by": "agent-1", "target_identifier": "192.168.56.10", "allowed": true, "requires_human_approval": false, "reason": "Auto-approved: within scope and risk policy.", "event": "authz.decision", "level": "info", "timestamp": "2026-07-18T05:19:29.793723Z"}
+{"engagement_id": "e0f9a5ff-2494-4cf0-9f01-81de6b6cb413", "plugin_name": "pentest", "tool_name": "scan", "risk_level": "medium", "requested_by": "agent-1", "target_identifier": "8.8.8.8", "allowed": false, "requires_human_approval": false, "reason": "No inclusion rule matched target identifier.", "event": "authz.decision", "level": "info", "timestamp": "2026-07-18T05:19:29.794261Z"}
