@@ -1,3 +1,9 @@
 environment: development
+
 database:
   url: sqlite+aiosqlite:///./data/lina_test.db
+
+ollama:
+  default_model: "qwen2.5-coder:7b"
+  reasoning_model: "qwen2.5-coder:7b"
+  embedding_model: "nomic-embed-text"
