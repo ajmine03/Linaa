@@ -1,0 +1,11 @@
+{"environment": "development", "database_url": "sqlite+aiosqlite:///./data/lina_test.db", "event": "container.building", "level": "info", "timestamp": "2026-07-18T03:34:00.234487Z"}
+{"environment": "development", "database_url": "sqlite+aiosqlite:///./data/lina_test.db", "event": "container.building", "level": "info", "timestamp": "2026-07-18T03:39:09.247266Z"}
+{"environment": "development", "database_url": "sqlite+aiosqlite:///./data/lina_test.db", "event": "container.building", "level": "info", "timestamp": "2026-07-18T03:39:50.467484Z"}
+{"tables": ["engagements", "targets", "findings", "assets", "credentials", "tool_executions", "agent_sessions", "agent_steps", "reports", "audit_entries"], "event": "db.initialized", "level": "info", "timestamp": "2026-07-18T03:39:50.570103Z"}
+{"subscription_id": "25bc9185-4d3d-490c-bd52-5228ed60cdab", "pattern": "*", "event": "event_bus.subscribed", "level": "info", "timestamp": "2026-07-18T03:39:50.570568Z"}
+{"subscription_id": "25bc9185-4d3d-490c-bd52-5228ed60cdab", "event": "audit_sink.started", "level": "info", "timestamp": "2026-07-18T03:39:50.570680Z"}
+{"event": "container.build_complete", "level": "info", "timestamp": "2026-07-18T03:39:50.570751Z"}
+{"subscription_id": "25bc9185-4d3d-490c-bd52-5228ed60cdab", "event": "event_bus.unsubscribed", "level": "info", "timestamp": "2026-07-18T03:39:50.692241Z"}
+{"event": "audit_sink.stopped", "level": "info", "timestamp": "2026-07-18T03:39:50.692710Z"}
+{"event": "db.engine_disposed", "level": "info", "timestamp": "2026-07-18T03:39:50.694053Z"}
+{"event": "container.shutdown_complete", "level": "info", "timestamp": "2026-07-18T03:39:50.694152Z"}

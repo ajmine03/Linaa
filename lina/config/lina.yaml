@@ -1,0 +1,3 @@
+environment: development
+database:
+  url: sqlite+aiosqlite:///./data/lina_test.db
