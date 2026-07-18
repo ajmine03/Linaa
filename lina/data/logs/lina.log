@@ -56,3 +56,27 @@
 {"event": "container.build_complete", "level": "info", "timestamp": "2026-07-18T05:19:29.777760Z"}
 {"engagement_id": "e0f9a5ff-2494-4cf0-9f01-81de6b6cb413", "plugin_name": "pentest", "tool_name": "scan", "risk_level": "read_only", "requested_by": "agent-1", "target_identifier": "192.168.56.10", "allowed": true, "requires_human_approval": false, "reason": "Auto-approved: within scope and risk policy.", "event": "authz.decision", "level": "info", "timestamp": "2026-07-18T05:19:29.793723Z"}
 {"engagement_id": "e0f9a5ff-2494-4cf0-9f01-81de6b6cb413", "plugin_name": "pentest", "tool_name": "scan", "risk_level": "medium", "requested_by": "agent-1", "target_identifier": "8.8.8.8", "allowed": false, "requires_human_approval": false, "reason": "No inclusion rule matched target identifier.", "event": "authz.decision", "level": "info", "timestamp": "2026-07-18T05:19:29.794261Z"}
+{"environment": "development", "database_url": "sqlite+aiosqlite:///./data/lina_test.db", "event": "container.building", "level": "info", "timestamp": "2026-07-18T19:07:59.068968Z"}
+{"tables": ["engagements", "targets", "findings", "assets", "credentials", "tool_executions", "agent_sessions", "agent_steps", "reports", "audit_entries", "kg_nodes", "kg_edges", "prompt_templates"], "event": "db.initialized", "level": "info", "timestamp": "2026-07-18T19:07:59.110214Z"}
+{"subscription_id": "5b8bd118-eec0-4ad9-83cc-74bd6a16f25c", "pattern": "*", "event": "event_bus.subscribed", "level": "info", "timestamp": "2026-07-18T19:07:59.110598Z"}
+{"subscription_id": "5b8bd118-eec0-4ad9-83cc-74bd6a16f25c", "event": "audit_sink.started", "level": "info", "timestamp": "2026-07-18T19:07:59.110671Z"}
+{"event": "container.build_complete", "level": "info", "timestamp": "2026-07-18T19:07:59.110719Z"}
+{"subscription_id": "5b8bd118-eec0-4ad9-83cc-74bd6a16f25c", "event": "event_bus.unsubscribed", "level": "info", "timestamp": "2026-07-18T19:07:59.110767Z"}
+{"event": "audit_sink.stopped", "level": "info", "timestamp": "2026-07-18T19:07:59.110801Z"}
+{"event": "db.engine_disposed", "level": "info", "timestamp": "2026-07-18T19:07:59.111374Z"}
+{"event": "container.shutdown_complete", "level": "info", "timestamp": "2026-07-18T19:07:59.111479Z"}
+{"environment": "development", "database_url": "sqlite+aiosqlite:///./data/lina_test.db", "event": "container.building", "level": "info", "timestamp": "2026-07-18T19:08:00.178596Z"}
+{"tables": ["engagements", "targets", "findings", "assets", "credentials", "tool_executions", "agent_sessions", "agent_steps", "reports", "audit_entries", "kg_nodes", "kg_edges", "prompt_templates"], "event": "db.initialized", "level": "info", "timestamp": "2026-07-18T19:08:00.194674Z"}
+{"subscription_id": "52ee93cc-64db-48c3-9000-32015f394d6d", "pattern": "*", "event": "event_bus.subscribed", "level": "info", "timestamp": "2026-07-18T19:08:00.195114Z"}
+{"subscription_id": "52ee93cc-64db-48c3-9000-32015f394d6d", "event": "audit_sink.started", "level": "info", "timestamp": "2026-07-18T19:08:00.195301Z"}
+{"event": "container.build_complete", "level": "info", "timestamp": "2026-07-18T19:08:00.195368Z"}
+{"engagement_id": "ebdad118-e000-415d-99df-aaaaf03904ec", "plugin_name": "pentest", "tool_name": "scan", "risk_level": "read_only", "requested_by": "agent-1", "target_identifier": "192.168.56.10", "allowed": true, "requires_human_approval": false, "reason": "Auto-approved: within scope and risk policy.", "event": "authz.decision", "level": "info", "timestamp": "2026-07-18T19:08:00.210116Z"}
+{"engagement_id": "ebdad118-e000-415d-99df-aaaaf03904ec", "plugin_name": "pentest", "tool_name": "scan", "risk_level": "medium", "requested_by": "agent-1", "target_identifier": "8.8.8.8", "allowed": false, "requires_human_approval": false, "reason": "No inclusion rule matched target identifier.", "event": "authz.decision", "level": "info", "timestamp": "2026-07-18T19:08:00.210843Z"}
+{"key": "test.prompt", "version": 1, "plugin_name": null, "event": "prompt_registry.registered", "level": "info", "timestamp": "2026-07-18T19:08:00.219964Z"}
+{"tool_name": "echo_test", "plugin_name": "test", "risk_level": "read_only", "event": "tool_registry.registered", "level": "info", "timestamp": "2026-07-18T19:08:00.223220Z"}
+{"tool_name": "echo_test", "execution_id": "438fe0d1-2936-4a1e-9068-13629f08426c", "engagement_id": "ebdad118-e000-415d-99df-aaaaf03904ec", "timeout_seconds": 5, "event": "tool_runtime.execution_starting", "level": "info", "timestamp": "2026-07-18T19:08:00.223424Z"}
+{"tool_name": "echo_test", "execution_id": "438fe0d1-2936-4a1e-9068-13629f08426c", "exit_code": 0, "duration_seconds": 0.002, "event": "tool_runtime.execution_finished", "level": "info", "timestamp": "2026-07-18T19:08:00.225970Z"}
+{"subscription_id": "52ee93cc-64db-48c3-9000-32015f394d6d", "event": "event_bus.unsubscribed", "level": "info", "timestamp": "2026-07-18T19:08:00.226099Z"}
+{"event": "audit_sink.stopped", "level": "info", "timestamp": "2026-07-18T19:08:00.226146Z"}
+{"event": "db.engine_disposed", "level": "info", "timestamp": "2026-07-18T19:08:00.226806Z"}
+{"event": "container.shutdown_complete", "level": "info", "timestamp": "2026-07-18T19:08:00.226900Z"}

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import AsyncIterator
+from typing import Any
 
 import ollama
 import structlog
@@ -74,7 +75,9 @@ class OllamaModelRouter(ModelRouterPort):
             )
         except Exception as exc:  # noqa: BLE001
             logger.exception("model_router.complete_failed", model=model_name)
-            raise ModelRouterError(f"Ollama completion failed for model '{model_name}': {exc}") from exc
+            raise ModelRouterError(
+                f"Ollama completion failed for model '{model_name}': {exc}"
+            ) from exc
 
         result = from_ollama_response(response, model_used=model_name)
         logger.debug(
@@ -91,10 +94,20 @@ class OllamaModelRouter(ModelRouterPort):
         wait=wait_exponential(multiplier=1, min=1, max=10),
         reraise=True,
     )
-    async def _call_with_retry(self, **kwargs: object) -> dict[str, object]:
+    async def _call_with_retry(
+        self,
+        *,
+        model: str,
+        messages: list[dict[str, Any]],
+        tools: list[dict[str, Any]] | None,
+        options: dict[str, Any],
+    ) -> dict[str, Any]:
         result = await self._client.chat(
+            model=model,
+            messages=messages,
+            tools=tools,
+            options=options,
             keep_alive=self._config.keep_alive,
-            **kwargs,  # type: ignore[arg-type]
         )
         return dict(result)
 
@@ -127,7 +140,9 @@ class OllamaModelRouter(ModelRouterPort):
                     yield content
         except Exception as exc:  # noqa: BLE001
             logger.exception("model_router.stream_failed", model=model_name)
-            raise ModelRouterError(f"Ollama streaming failed for model '{model_name}': {exc}") from exc
+            raise ModelRouterError(
+                f"Ollama streaming failed for model '{model_name}': {exc}"
+            ) from exc
 
     async def embed(self, texts: list[str], *, model: str | None = None) -> EmbeddingResult:
         model_name = model or self._config.embedding_model
@@ -139,12 +154,28 @@ class OllamaModelRouter(ModelRouterPort):
             response = await self._embed_with_retry(model=model_name, input=texts)
         except Exception as exc:  # noqa: BLE001
             logger.exception("model_router.embed_failed", model=model_name)
-            raise ModelRouterError(f"Ollama embedding failed for model '{model_name}': {exc}") from exc
+            raise ModelRouterError(
+                f"Ollama embedding failed for model '{model_name}': {exc}"
+            ) from exc
 
-        vectors = response.get("embeddings", [])
+        raw_vectors = response.get("embeddings", [])
+        if not isinstance(raw_vectors, list):
+            raise ModelRouterError(
+                f"Ollama embedding response for '{model_name}' had unexpected "
+                f"'embeddings' type: {type(raw_vectors)!r}"
+            )
+
+        vectors: list[list[float]] = [
+            [float(x) for x in row] if isinstance(row, list) else []
+            for row in raw_vectors
+        ]
         dimensions = len(vectors[0]) if vectors else 0
 
-        return EmbeddingResult(vectors=vectors, model_used=model_name, dimensions=dimensions)
+        return EmbeddingResult(
+            vectors=vectors,
+            model_used=model_name,
+            dimensions=dimensions,
+        )
 
     @retry(
         retry=retry_if_exception_type(_RETRYABLE_EXCEPTIONS),

@@ -69,9 +69,22 @@ class ToolRuntimePort(ABC):
         """Register the concrete implementation backing a declared ToolSpec."""
 
     @abstractmethod
+    def register_tool(self, spec: ToolSpec, handler: ToolHandler) -> None:
+        """Register a ToolSpec and its handler together in one call.
+
+        Added for the Plugin Manager, which needs to register a plugin's
+        declared tools without depending on a concrete adapter's internal
+        registry. SubprocessToolRuntime already implements this.
+        """
+
+    @abstractmethod
     def get_spec(self, tool_name: str) -> ToolSpec | None:
         """Look up a registered tool's static spec."""
 
     @abstractmethod
-    def list_specs(self, *, plugin_name: str | None = None) -> list[ToolSpec]:
+    def list_specs(
+        self,
+        *,
+        plugin_name: str | None = None,
+    ) -> list[ToolSpec]:
         """List all registered tool specs, optionally filtered by plugin."""

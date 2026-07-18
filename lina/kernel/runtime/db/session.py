@@ -33,7 +33,21 @@ def create_session_factory(engine: AsyncEngine) -> async_sessionmaker[AsyncSessi
 
 
 async def init_db(engine: AsyncEngine) -> None:
-    """Create all tables if they don't exist. Idempotent — safe on every startup."""
+    """Create all tables if they don't exist. Idempotent — safe on every startup.
+
+    NOTE: `kernel.knowledge_graph.db.models` and `kernel.prompt_registry.db.models`
+    declare ORM tables (kg_nodes, kg_edges, prompt_templates) that live outside
+    the kernel.runtime package. They are otherwise only imported lazily inside
+    `SQLAlchemyUnitOfWork.__aenter__` (to avoid a circular import back into
+    kernel.runtime — see unit_of_work.py). Without the imports below, those
+    tables would never be registered on `Base.metadata` before `create_all()`
+    runs here, and would silently never get created. Importing them locally,
+    right before `create_all()`, guarantees registration while preserving the
+    same deferred-import pattern that avoids the circular import.
+    """
+    import kernel.knowledge_graph.db.models  # noqa: F401
+    import kernel.prompt_registry.db.models  # noqa: F401
+
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     logger.info("db.initialized", tables=list(Base.metadata.tables.keys()))

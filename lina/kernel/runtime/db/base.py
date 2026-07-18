@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+from typing import TYPE_CHECKING, Any
 
 from sqlalchemy import DateTime, String, Text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -24,6 +25,9 @@ class EntityRecordMixin:
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
     data: Mapped[str] = mapped_column(Text, nullable=False)
+
+    if TYPE_CHECKING:
+        def __init__(self, **kwargs: Any) -> None: ...
 
 
 class EngagementScopedMixin(EntityRecordMixin):
