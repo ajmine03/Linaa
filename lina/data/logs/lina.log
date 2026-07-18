@@ -9,3 +9,18 @@
 {"event": "audit_sink.stopped", "level": "info", "timestamp": "2026-07-18T03:39:50.692710Z"}
 {"event": "db.engine_disposed", "level": "info", "timestamp": "2026-07-18T03:39:50.694053Z"}
 {"event": "container.shutdown_complete", "level": "info", "timestamp": "2026-07-18T03:39:50.694152Z"}
+{"environment": "development", "database_url": "sqlite+aiosqlite:///./data/lina_test.db", "event": "container.building", "level": "info", "timestamp": "2026-07-18T03:53:32.607457Z"}
+{"tables": ["engagements", "targets", "findings", "assets", "credentials", "tool_executions", "agent_sessions", "agent_steps", "reports", "audit_entries"], "event": "db.initialized", "level": "info", "timestamp": "2026-07-18T03:53:32.616296Z"}
+{"subscription_id": "08679d8a-4d7d-4319-94c6-f29535c92ecf", "pattern": "*", "event": "event_bus.subscribed", "level": "info", "timestamp": "2026-07-18T03:53:32.616475Z"}
+{"subscription_id": "08679d8a-4d7d-4319-94c6-f29535c92ecf", "event": "audit_sink.started", "level": "info", "timestamp": "2026-07-18T03:53:32.616546Z"}
+{"event": "container.build_complete", "level": "info", "timestamp": "2026-07-18T03:53:32.616589Z"}
+{"engagement_id": "3b7608af-8d15-4a78-b46c-b054b6c8099c", "plugin_name": "pentest", "tool_name": "port_scan", "risk_level": "read_only", "requested_by": "agent-1", "target_identifier": "192.168.56.10", "allowed": true, "requires_human_approval": false, "reason": "Auto-approved: within scope and risk policy.", "event": "authz.decision", "level": "info", "timestamp": "2026-07-18T03:53:32.630881Z"}
+{"engagement_id": "3b7608af-8d15-4a78-b46c-b054b6c8099c", "plugin_name": "pentest", "tool_name": "port_scan", "risk_level": "medium", "requested_by": "agent-1", "target_identifier": "8.8.8.8", "allowed": false, "requires_human_approval": false, "reason": "No inclusion rule matched target identifier.", "event": "authz.decision", "level": "info", "timestamp": "2026-07-18T03:53:32.631475Z"}
+{"engagement_id": "3b7608af-8d15-4a78-b46c-b054b6c8099c", "plugin_name": "pentest", "tool_name": "exploit_run", "risk_level": "high", "requested_by": "agent-1", "target_identifier": "192.168.56.10", "allowed": false, "requires_human_approval": true, "reason": "Risk level high requires human approval.", "event": "authz.decision", "level": "info", "timestamp": "2026-07-18T03:53:32.631968Z"}
+{"tool_name": "echo_test", "plugin_name": "test", "risk_level": "read_only", "event": "tool_registry.registered", "level": "info", "timestamp": "2026-07-18T03:53:32.632235Z"}
+{"tool_name": "echo_test", "execution_id": "ed252438-a036-4fd0-a851-e45601014cbf", "engagement_id": "3b7608af-8d15-4a78-b46c-b054b6c8099c", "timeout_seconds": 5, "event": "tool_runtime.execution_starting", "level": "info", "timestamp": "2026-07-18T03:53:32.632335Z"}
+{"tool_name": "echo_test", "execution_id": "ed252438-a036-4fd0-a851-e45601014cbf", "exit_code": 0, "duration_seconds": 0.002, "event": "tool_runtime.execution_finished", "level": "info", "timestamp": "2026-07-18T03:53:32.634066Z"}
+{"subscription_id": "08679d8a-4d7d-4319-94c6-f29535c92ecf", "event": "event_bus.unsubscribed", "level": "info", "timestamp": "2026-07-18T03:53:32.634153Z"}
+{"event": "audit_sink.stopped", "level": "info", "timestamp": "2026-07-18T03:53:32.634197Z"}
+{"event": "db.engine_disposed", "level": "info", "timestamp": "2026-07-18T03:53:32.634539Z"}
+{"event": "container.shutdown_complete", "level": "info", "timestamp": "2026-07-18T03:53:32.634595Z"}
